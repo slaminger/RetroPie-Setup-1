@@ -350,6 +350,19 @@ function platform_tinker() {
     __platform_flags="arm armv7 neon kms gles"
 }
 
+function platform_odroidgo2() {
+    if [[ "$(getconf LONG_BIT)" -eq 32 ]]; then
+        __default_cflags="-O2 -march=armv8-a+crc -mtune=cortex-a35 -mfpu=neon-fp-armv8"
+        __platform_flags="arm armv8 neon mali gles"
+    else
+        __default_cflags="-O2 -march=native"
+        __platform_flags="aarch64 mali gles"
+    fi
+    __default_cflags+=" -ftree-vectorize -funsafe-math-optimizations"
+    __default_asflags=""
+    __default_makeflags="-j2"
+}
+
 function platform_x86() {
     __default_cflags="-O2 -march=native"
     __default_asflags=""
